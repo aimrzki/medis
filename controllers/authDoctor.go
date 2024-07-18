@@ -6,7 +6,6 @@ import (
 	"github.com/labstack/echo/v4"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/gorm"
-	"medis/helper"
 	"medis/middleware"
 	"medis/models"
 	"net/http"
