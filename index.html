@@ -2,19 +2,24 @@
 <html>
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medis Apps - Skill Test API Documentation</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
             padding: 20px;
-            font-family: Arial, sans-serif;
         }
 
         .card {
             border: none;
             box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
             margin-bottom: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
         }
 
         .card-body {
@@ -26,42 +31,91 @@
             padding: 15px;
             border-radius: 5px;
             overflow-x: auto;
+            font-size: 14px;
         }
 
         #navbar {
             position: fixed;
-            width: 250px;
-            height: 100%;
-            overflow-y: scroll;
-            padding-right: 15px;
-            padding-left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 300px;
+            padding: 20px;
+            background-color: #343a40;
+            color: #ffffff;
+            overflow-y: auto;
+        }
+
+        #navbar h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
 
         #content {
-            margin-left: 300px;
+            margin-left: 320px;
+            padding: 20px;
         }
 
         .nav-link {
-            color: #2F4F4F !important;
+            color: #ffffff !important;
+            font-size: 18px;
+            margin-bottom: 10px;
         }
 
         .nav-link:hover {
-            color: #FF6347 !important;
-        }
-
-        #endpoint a {
-            color: #2F4F4F;
-        }
-
-        #endpoint a:hover {
-            color: #FF6347;
+            color: #17a2b8 !important;
         }
 
         .anchor:before {
             content: "";
             display: block;
-            height: 70px; /* sesuaikan dengan tinggi navbar Anda */
-            margin: -70px 0 0; /* nilainya harus negatif dan sama dengan height */
+            height: 70px;
+            margin: -70px 0 0;
+        }
+
+        .highlight {
+            background-color: #ffc107;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        .section-header {
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .sub-section {
+            margin-bottom: 30px;
+        }
+
+        .url-method {
+            display: flex;
+            align-items: center;
+        }
+
+        .url-method code {
+            font-size: 16px;
+            background-color: #f8f9fa;
+            padding: 5px;
+            border-radius: 5px;
+            margin-left: 10px;
+        }
+
+        .url-method span {
+            font-size: 16px;
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .fa-file-download {
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -73,6 +127,7 @@
             <h1 class="my-4">List API</h1>
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link" href="#endpoint">Endpoint</a></li>
+                <li class="nav-item"><a class="nav-link" href="#postman">Postman Collection Download</a></li>
                 <li class="nav-item"><a class="nav-link" href="#authSatuSehat">Auth satu sehat</a></li>
                 <li class="nav-item"><a class="nav-link" href="#listObatSatuSehat">List Obat Satu Sehat</a></li>
                 <li class="nav-item"><a class="nav-link" href="#registerDoctor">Register Akun Dokter</a></li>
@@ -86,7 +141,13 @@
             </ul>
         </nav>
         <div id="content" class="col">
-            <h1 class="my-4">Medis Apps - Skill Test API Documentatio</h1>
+            <h1 class="my-4">Medis Apps - Skill Test API Documentation</h1>
+
+            <div id="postman" class="anchor">
+                <h2 class="my-4">Postman Collection Download</h2>
+                <p><a href="https://drive.google.com/uc?export=download&id=1losjlHQZlEyXZp1ViS1BcH0qsP19lsP_">Download Collection</a></p>
+            </div>
+
             <div id="endpoint" class="anchor">
                 <h2 class="my-4">Endpoint</h2>
                 <p><a href="http://35.225.10.188:8080/">http://35.225.10.188:8080</a></p>
@@ -100,7 +161,13 @@
                     <p><code>/api/satusehat/auth</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>POST</code></p>
-                    <p><strong>Request Body</strong></p>
+                    <p><strong>Params</strong></p>
+                    <pre>
+    {
+        grant_type : client_credentials,
+    }
+                        </pre>
+                    <p><strong>Request Body (x-www-form-urlencoded)</strong></p>
                     <pre>
     {
         "client_id" : XlMlnNSGO9RcdCRvkNL6dfRTMgnvERAIZQCCjA5ybQo0M59u,
@@ -110,49 +177,138 @@
                     <p><strong>Response</strong></p>
                     <pre>
     {
-        "id": 13,
-        "message": "Login successful",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZml0eSIsImV4cCI6MTY5NzQ2Mzk4MywiaWF0IjoxNjk3Mzc3NTgzfQ.Q3RIb0NVJ72P5wye5iPVaEsf7-BDtT-lavTdkJq60vw"
+            "refresh_token_expires_in": string,
+            "api_product_list": "[api-sandbox]",
+            "api_product_list_json": [
+             "api-sandbox"
+            ],
+            "organization_name": string,
+            "developer.email": string,
+            "token_type": string",
+            "issued_at": string,
+            "client_id": string,
+            "access_token": string,
+            "application_name": string,
+            "scope": string,
+            "expires_in": string,
+            "refresh_count": string,
+            "status": string
     }
                         </pre>
                 </div>
             </div>
 
 
-            <div id="register" class="card mb-4">
+            <div id="listObatSatuSehat" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Register</h2>
+                    <h2>List Obat Satu Sehat</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/signup</code></p>
+                    <p><code>/api/satusehat/medicine</code></p>
+                    <p><strong>Method</strong></p>
+                    <p><code>GET</code></p>
+                    <p><strong>Request Body</strong></p>
+                    <p><strong>Note</strong></p>
+                    <p><code>Include authorization token in headers. Bearer token from Satu Sehat Auth</code></p>
+                    <p><strong>Response</strong></p>
+                    <pre>
+    {
+                "total": int,
+                "page": int,
+                "limit": int,
+                "items": {
+                    "data": [
+                        {
+                            "kfa_code": int,
+                            "product_template_name": string,
+                            "document_ref": string,
+                            "active": bool,
+                            "region_name": string,
+                            "region_code": string,
+                            "start_date": string,
+                            "end_date": string,
+                            "price_unit": int,
+                            "uom_name": string,
+                            "updated_at": string,
+                            "uom_pack": [
+                                string,
+                                string,
+                                string
+                            ],
+                            "province": [
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                },
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                },
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                },
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                },
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                },
+                                {
+                                    "province_code": string,
+                                    "province_name": string
+                                }
+                            ]
+                        }
+                    ]
+                }
+    }
+                        </pre>
+                </div>
+            </div>
+
+
+            <div id="registerDoctor" class="card mb-4">
+                <div class="card-body">
+                    <h2>Register Akun Dokter</h2>
+                    <p><strong>URL</strong></p>
+                    <p><code>/api/doctor/signup</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>POST</code></p>
-                    <p><strong>Request Body</strong></p>
+                    <p><code>Lakukan verifikasi pada tombol yang dikirim ke email (cek spam)</code></p>
+                    <p><strong>Request Body - Raw json</strong></p>
                     <pre>
   {
-        "username" : "string",
-        "password" : "string",
-        "email" : "string",
-        "phone_number" : "string"
+        "first_name" : string,
+        "last_name" : string,
+        "username" : string,
+        "password" : string,
+        "email" : string
   }
                         </pre>
                     <p><strong>Response</strong></p>
                     <pre>
     {
+        "code": int,
         "id": int,
-        "message": "User created successfully",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwiaWF0IjoxNjg1MjYxNTAxxxxxxxx"
+        "message": string,
+        "token": string
     }
                         </pre>
                 </div>
             </div>
 
-            <div id="login" class="card mb-4 anchor">
+            <div id="loginDoctor" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Login</h2>
+                    <h2>Login Akun Dokter</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/signin</code></p>
+                    <p><code>/api/doctor/signin</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>POST</code></p>
+                    <p><strong>Existing Doctor Account</strong></p>
+                    <p><code>username : aimrzki</code></p>
+                    <p><code>password : prodia123</code></p>
                     <p><strong>Request Body</strong></p>
                     <pre>
     {
@@ -163,596 +319,206 @@
                     <p><strong>Response</strong></p>
                     <pre>
     {
-        "id": 13,
-        "message": "Login successful",
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZml0eSIsImV4cCI6MTY5NzQ2Mzk4MywiaWF0IjoxNjk3Mzc3NTgzfQ.Q3RIb0NVJ72P5wye5iPVaEsf7-BDtT-lavTdkJq60vw"
-    }
-                        </pre>
-                </div>
-            </div>
-
-            <div id="getUserDataById" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get User Data By Id</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/:id</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-       "error": false,
-        "message": "User data retrieved successfully",
-        "user": {
+        "code": int,
+        "error": bool,
         "id": int,
-        "username": "string",
-        "email": "string",
-        "phone_number": "string",
-        "points": int,
-        "is_verified": bool,
+        "message": string,
+        "token": string
     }
                         </pre>
                 </div>
             </div>
 
-            <div id="getAllUserDataByAdmin" class="card mb-4 anchor">
+            <div id="addMedicalRecord" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Get All User Data By Admin</h2>
+                    <h2>Menambahkan Medical Record Pasien</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/admin/user</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "users": [
-        {
-            "id": int,
-            "username": "string",
-            "email": "string",
-            "phone_number": "string",
-            "points": int
-        },
-        {
-            "id": int,
-            "username": "string",
-            "email": "string",
-            "phone_number": "string",
-            "points": int
-        },
-    ]
-    }
-                        </pre>
-                </div>
-            </div>
-
-            <div id="getAllTicketByAdmin" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get All Booking Data By Admin</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/admin/ticket</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "tickets": [
-        {
-            "id": int,
-            "hotel_id": int,
-            "user_id": int,
-            "night": int,
-            "kode_voucher": "string",
-            "used_points": int,
-            "use_all_points": bool,
-            "total_cost": int,
-            "invoice_number": "string",
-            "quantity": int,
-            "created_at": "time",
-            "update_at": "time"
-        },
-        {
-            "id": int,
-            "hotel_id": int,
-            "user_id": int,
-            "night": int,
-            "kode_voucher": "string",
-            "used_points": int,
-            "use_all_points": bool,
-            "total_cost": int,
-            "invoice_number": "string",
-            "quantity": int,
-            "created_at": "time",
-            "updated_at": "time"
-        }
-    ]
-    }
-                            </pre>
-                </div>
-            </div>
-
-            <div id="addedHotelByAdmin" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Added Hotel Data By Admin</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/hotel/create</code></p>
+                    <p><code>/api/doctor/medical-record</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>POST</code></p>
-                    <p><strong>Request Body - Form Data</strong></p>
+                    <p><strong>Request Body - Raw json</strong></p>
                     <pre>
     {
-        "title": "string",
-        "location": "string",
-        "description": "string",
-        "price": int,
-        "available_rooms": int,
-        "room_type": "string",
-        "guest_count": int,
-        "image": file""
+            "patient_name" : string,
+            "birth_date" : string,
+            "email" : string,
+            "phone_number" : string,
+            "diagnosis" : string,
+            "prescription" : string,
+            "care_suggestion" : string
     }
                             </pre>
                     <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
+                    <p><code>Include authorization token in headers (Bearer token from doctor auth login)</code></p>
                     <p><strong>Response</strong></p>
                     <pre>
     {
+        "code": int,
+        "data": {
+            "id": int,
+            "patient_name": string,
+            "birth_date": string,
+            "email": string,
+            "phone_number": string,
+            "diagnosis": string,
+            "prescription": string,
+            "care_suggestion": string,
+            "doctor_id": int,
+            "created_at": string,
+            "UpdatedAt": string
+        },
         "error": false,
-        "message": "Hotel created successfully"
+        "message": "Medical record created successfully"
     }
                             </pre>
                 </div>
             </div>
 
-            <div id="paidUpdate" class="card mb-4 anchor">
+            <div id="getAllMedicalRecord" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Paid Status Update by Admin</h2>
+                    <h2>Melihat Data Medical Record Yang Dibuat Dokter</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/admin/ticket/:invoiceId</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>PUT - Admin dapat mengubah status pembayaran</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "paid_status" : bool,
-    }
-                            </pre>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-    "code": 200,
-    "error": false,
-    "message": "Paid status updated successfully",
-    "ticket": {
-        "id": int,
-        "hotel_id": int,
-        "user_id": int,
-        "night": int,
-        "kode_voucher": "string",
-        "used_points": int,
-        "use_all_points": bool,
-        "points_earned": int,
-        "total_cost": int,
-        "invoice_number": "string,
-        "quantity": int,
-        "checkin_booking": year-month-date,
-        "checkout_booking": year-month-date,
-        "created_at": time,
-        "UpdatedAt": time,
-        "paid_status": bool
-    }
-}
-                            </pre>
-                </div>
-            </div>
-
-            <div id="getAllHotel" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get All Hotel Data</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/hotel</code></p>
+                    <p><code>/api/doctor/medical-record</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>GET</code></p>
                     <p><strong>Note</strong></p>
                     <p><code>Include authorization token in headers.</code></p>
                     <p><strong>Response</strong></p>
                     <pre>
-    {
-       "error": false,
-    "hotels": [
+{
+    "code": int,
+    "data": [
         {
             "id": int,
-            "title": "string",
-            "location": "string",
-            "price": int,
-            "user_id": int,
-            "available_rooms": int,
-            "room_type": "string",
-            "guest_count": int,
-            "photo_hotel": "string - url cloud storage",
-            "created_at": "time",
-            "updated_at": "time"
+            "patient_name": string,
+            "birth_date": string,
+            "email": string,
+            "phone_number": string,
+            "diagnosis": string,
+            "prescription": string,
+            "care_suggestion": string,
+            "doctor_id": int,
+            "created_at": string,
+            "UpdatedAt": string
         },
         {
             "id": int,
-            "title": "string",
-            "location": "string",
-            "price": int,
-            "user_id": int,
-            "available_rooms": int,
-            "room_type": "string",
-            "guest_count": int,
-            "photo_hotel": "string - url cloud storage",
-            "created_at": "time",
-            "updated_at": "time"
-        }
-    ]
-    }
-                            </pre>
-                </div>
-            </div>
-
-            <div id="getHotelById" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get Data Hotel By ID</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/hotel/:id</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "error": false,
-        "hotel": {
-        "id": id,
-        "title": "string",
-        "location": "string",
-        "description": "string",
-        "price": int,
-        "user_id": int,
-        "available_rooms": int,
-        "room_type": "string",
-        "guest_count": int,
-        "photo_hotel": "string - url cloud storage",
-        "created_at": "time",
-        "updated_at": "time"
-    }
-                            </pre>
-                </div>
-            </div>
-
-            <div id="createPromoVoucherByAdmin" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Create Promo Voucher By Admin</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/createpromo</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>POST</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "title": "string",
-        "kode_voucher": "string",
-        "jumlah_potongan_persen": int
-    }
-                            </pre>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "error": false,
-        "message": "Promo created successfully"
-    }
-                            </pre>
-                </div>
-            </div>
-
-
-            <div id="getAllPromo" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get All Promo Data</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/promo</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-      {
-    "error": false,
-    "promos": [
-        {
-            "id": int,
-            "title": "string",
-            "kode_voucher": "string",
-            "jumlah_potongan_persen": int
-        },
-        {
-            "id": int,
-            "title": "string",
-            "kode_voucher": "string",
-            "jumlah_potongan_persen": int
-        }
-    ]
-    }
-                            </pre>
-                </div>
-            </div>
-            <div id="bookingHotel" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Booking Hotel By User</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/buy</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>POST</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "hotel_id": int,
-        "night": int,
-        "kode_voucher": "string",
-        "use_all_points": bool,
-        "quantity": int
-    }
-                            </pre>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "error": false,
-        "invoice_number": "string",
-        "kode_voucher" : "string",
-        "message" : "string",
-        "point_message" : "string",
-        "point_earned" : int,
-        "ticket_id" : int,
-        "total_cost" : int,
-        "used_points" : int
-    }
-                            </pre>
-                </div>
-            </div>
-
-            <div id="getUserHotel" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get User Hotel Booking Data</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/hotel</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-      {
-    "error": false,
-    "hotel_data": [
-        {
-            "guest_count": int,
-            "hotel_id": int,
-            "hotel_name": "string",
-            "invoice_number": "string",
-            "kode_voucher": "string",
-            "night": int,
-            "quantity": int,
-            "room_type": "string",
-            "total_cost": int,
-            "user_id": int
+            "patient_name": string,
+            "birth_date": string,
+            "email": string,
+            "phone_number": string,
+            "diagnosis": string,
+            "prescription": string,
+            "care_suggestion": string,
+            "doctor_id": int,
+            "created_at": string,
+            "UpdatedAt": string
         }
     ],
-    "message": "User's tickets retrieved successfully"
-    }
+    "error": false,
+    "limit": int,
+    "message": "Medical records fetched successfully",
+    "page": int,
+    "totalRecords": int
+}
                             </pre>
                 </div>
             </div>
 
-            <div id="getBookingDataByInvoice" class="card mb-4 anchor">
+            <div id="getMedicalRecordById" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Get User Hotel Booking Data By Invoice - Admin</h2>
+                    <h2>Melihat Data Medical Record Yang Dibuat Dokter Berdasarkan ID</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/admin/ticket/invoice</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>GET</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "invoice_number": "string"
-    }
-                            </pre>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "error": false,
-        "message": "Ticket details retrieved successfully",
-    "ticket_data": {
-        "guest_count": int,
-        "hotel_id": int,
-        "hotel_title": "string",
-        "invoice_number": "string",
-        "kode_voucher": "string",
-        "night": int,
-        "room_type": "string",
-        "ticket_id": int,
-        "total_cost": int,
-        "user_id": int
-    }
-    }
-                            </pre>
-                </div>
-            </div>
-
-            <div id="getPointUser" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Get Point User </h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/points</code></p>
+                    <p><code>/api/doctor/medical-record/:id</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>GET</code></p>
                     <p><strong>Note</strong></p>
                     <p><code>Include authorization token in headers.</code></p>
                     <p><strong>Response</strong></p>
                     <pre>
-    }
-        "error": false,
-        "message": "User's points retrieved successfully",
-        "points": int
-    }
+{
+    "code": int,
+    "data": {
+        "id": int,
+        "patient_name": string,
+        "birth_date": string,
+        "email": string,
+        "phone_number": string,
+        "diagnosis": string,
+        "prescription": string,
+        "care_suggestion": string,
+        "doctor_id": int,
+        "created_at": string,
+        "UpdatedAt": string
+    },
+    "error": false,
+    "message": "Medical record fetched successfully"
+}
                             </pre>
                 </div>
             </div>
-            <div id="editHotelDataByAdmin" class="card mb-4 anchor">
+
+            <div id="editMedicalRecordById" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Edit Hotel Data By Admin</h2>
+                    <h2>Mengedit Data Medical Record Yang Dibuat Dokter Berdasarkan ID</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/admin/hotel/:id</code></p>
+                    <p><code>/api/doctor/medical-record/:id</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>PUT - Admin dapat mengubah hanya salah satu data</code></p>
-                    <p><strong>Request Body - form data</strong></p>
+                    <p><strong>Request Body - Raw Json</strong></p>
                     <pre>
     {
-        "title": "string",
-        "location": "string",
-        "description": "string",
-        "price": int,
-        "available_rooms": int,
-        "room_type": "string",
-        "guest_count": int,
-        "photo_hotel": file
+            "patient_name" : string,
+            "birth_date" : string,
+            "email" : string,
+            "phone_number" : string,
+            "diagnosis" : string,
+            "prescription" : string,
+            "care_suggestion" : string
     }
                             </pre>
                     <p><strong>Note</strong></p>
                     <p><code>Include authorization token in headers.</code></p>
                     <p><strong>Response</strong></p>
                     <pre>
-    {
-    "error": false,
-    "hotelData": {
+{
+    "code": int,
+    "data": {
+        "birth_date": string,
+        "care_suggestion": string,
+        "created_at": string,
+        "diagnosis": string,
+        "email": string,
         "id": int,
-        "title": "string",
-        "location": "string",
-        "description": "string",
-        "price": int,
-        "user_id":int,
-        "available_rooms": int,
-        "room_type": "string",
-        "guest_count": int,
-        "photo_hotel": file,
-        "created_at": "time",
-        "UpdatedAt": "time"
+        "patient_name": string,
+        "phone_number": string,
+        "prescription": string,
+        "updated_at": string
     },
-    "message": "Hotel updated successfully"
-}
-                            </pre>
-                </div>
-            </div>
-
-            <div id="editUserData" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Edit User Data By ID</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/user/:id</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>PUT - User dapat mengubah hanya salah satu data</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "username" : "string",
-        "password" : "string",
-        "email" : "string",
-        "phone_number" : "string"
-    }
-                            </pre>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
     "error": false,
-    "message": "User updated successfully",
-    "user": {
-        "id": id,
-        "username": "string",
-        "email": "string",
-        "password": "string",
-        "phone_number": "string",
-        "points": int,
-    }
+    "message": "Medical record updated successfully"
 }
                             </pre>
                 </div>
             </div>
 
-            <div id="deleteUserByAdmin" class="card mb-4 anchor">
+            <div id="deleteMedicalRecordById" class="card mb-4 anchor">
                 <div class="card-body">
-                    <h2>Delete User Data By Id - Admin</h2>
+                    <h2>Menghapus Data Medical Record Yang Dibuat Dokter Berdasarkan ID</h2>
                     <p><strong>URL</strong></p>
-                    <p><code>/admin/user/:id</code></p>
+                    <p><code>/api/doctor/medical-record/:id</code></p>
                     <p><strong>Method</strong></p>
                     <p><code>DELETE</code></p>
                     <p><strong>Note</strong></p>
                     <p><code>Include authorization token in headers.</code></p>
                     <p><strong>Response</strong></p>
                     <pre>
-            {
-                  "error":   false,
-                  "message": "User deleted successfully"
-            }
+{
+    "code": int,
+    "error": bool,
+    "message": string
+}
                      </pre>
-                </div>
-            </div>
-            <div id="deleteHotelByAdmin" class="card mb-4 anchor">
-                <div class="card-body">
-                    <h2>Delete Hotel Data By Id - Admin</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/admin/hotel/:id</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>DELETE</code></p>
-                    <p><strong>Note</strong></p>
-                    <p><code>Include authorization token in headers.</code></p>
-                    <p><strong>Response</strong></p>
-                    <pre>
-      {
-            "error":   false,
-            "message": "User deleted successfully"
-      }
-                            </pre>
-                </div>
-            </div>
-            <div id="chatbot" class="card mb-4">
-                <div class="card-body">
-                    <h2>Chatbot Access Powered By OpenAI GPT 3.5</h2>
-                    <p><strong>URL</strong></p>
-                    <p><code>/chatbot/recommend-hotel</code></p>
-                    <p><strong>Method</strong></p>
-                    <p><code>POST</code></p>
-                    <p><strong>Request Body</strong></p>
-                    <pre>
-    {
-        "message": "Saya butuh rekomendasi hotel di jakarta"
-    }
-                        </pre>
-                    <p><strong>Response</strong></p>
-                    <pre>
-    {
-        "message": "string",
-    }
-                        </pre>
                 </div>
             </div>
 
