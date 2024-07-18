@@ -59,6 +59,7 @@ type Province struct {
 func GetAuthToken(c echo.Context) error {
 	clientID := os.Getenv("CLIENT_ID")
 	clientSecret := os.Getenv("CLIENT_SECRET")
+	grantType := os.Getenv("GRANT_TYPE")
 
 	client := resty.New()
 	resp, err := client.R().
@@ -66,7 +67,7 @@ func GetAuthToken(c echo.Context) error {
 		SetFormData(map[string]string{
 			"client_id":     clientID,
 			"client_secret": clientSecret,
-			"grant_type":    "client_credentials",
+			"grant_type":    grantType,
 		}).
 		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials")
 
