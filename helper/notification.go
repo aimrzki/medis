@@ -16,7 +16,7 @@ func SendWelcomeEmail(doctorEmail, fullName, verificationToken string) error {
 	sender := smtpUsername
 	recipient := doctorEmail
 	subject := "Welcome to Prodia"
-	verificationLink := "http://localhost:8080/verify?token=" + verificationToken
+	verificationLink := "http://35.225.10.188:8080/verify?token=" + verificationToken
 	emailBody := `
     <html>
     <head>
