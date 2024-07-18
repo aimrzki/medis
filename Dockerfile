@@ -13,7 +13,7 @@ COPY . .
 # Build the Go application
 RUN go build -o main.app .
 
-# Expose the port the app runs on
+# Expose the port the app runs on 8080
 EXPOSE 8080
 
 # Use CMD to run the binary
