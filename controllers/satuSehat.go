@@ -5,7 +5,6 @@ import (
 	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
 	"net/http"
-	"os"
 	"strconv"
 )
 
@@ -57,34 +56,6 @@ type Province struct {
 }
 
 func GetAuthToken(c echo.Context) error {
-	clientID := os.Getenv("CLIENT_ID")
-	clientSecret := os.Getenv("CLIENT_SECRET")
-	grantType := os.Getenv("GRANT_TYPE")
-
-	client := resty.New()
-	resp, err := client.R().
-		SetHeader("Content-Type", "application/x-www-form-urlencoded").
-		SetFormData(map[string]string{
-			"client_id":     clientID,
-			"client_secret": clientSecret,
-			"grant_type":    grantType,
-		}).
-		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials")
-
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to get access token: " + err.Error()})
-	}
-
-	var authResponse AuthResponse
-	if err := json.Unmarshal(resp.Body(), &authResponse); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to parse access token response: " + err.Error()})
-	}
-
-	return c.JSON(http.StatusOK, authResponse)
-}
-
-/*
-func GetAuthToken(c echo.Context) error {
 	type AuthRequest struct {
 		ClientID     string `form:"client_id"`
 		ClientSecret string `form:"client_secret"`
@@ -106,6 +77,34 @@ func GetAuthToken(c echo.Context) error {
 		}).
 		SetQueryParam("grant_type", authReq.GrantType).
 		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken")
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to get access token: " + err.Error()})
+	}
+
+	var authResponse AuthResponse
+	if err := json.Unmarshal(resp.Body(), &authResponse); err != nil {
+		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to parse access token response: " + err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, authResponse)
+}
+
+/*
+func GetAuthToken(c echo.Context) error {
+	clientID := os.Getenv("CLIENT_ID")
+	clientSecret := os.Getenv("CLIENT_SECRET")
+	grantType := os.Getenv("GRANT_TYPE")
+
+	client := resty.New()
+	resp, err := client.R().
+		SetHeader("Content-Type", "application/x-www-form-urlencoded").
+		SetFormData(map[string]string{
+			"client_id":     clientID,
+			"client_secret": clientSecret,
+			"grant_type":    grantType,
+		}).
+		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken?grant_type=client_credentials")
 
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to get access token: " + err.Error()})

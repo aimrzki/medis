@@ -73,34 +73,51 @@
             <h1 class="my-4">List API</h1>
             <ul class="nav flex-column">
                 <li class="nav-item"><a class="nav-link" href="#endpoint">Endpoint</a></li>
-                <li class="nav-item"><a class="nav-link" href="#register">Register</a></li>
-                <li class="nav-item"><a class="nav-link" href="#login">Login</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getUserDataById">Get User Data By ID</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getAllTicketByAdmin">Get All Ticket By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#addedHotelByAdmin">Added Hotel By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#paidUpdate">Paid Status Update By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getAllHotel">Get All Hotel Data</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getHotelById">Get Hotel Data By ID</a></li>
-                <li class="nav-item"><a class="nav-link" href="#createPromoVoucherByAdmin">Create Promo Voucher By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getAllPromo">Get All Promo</a></li>
-                <li class="nav-item"><a class="nav-link" href="#bookingHotel">Booking Hotel by User</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getUserHotel">Get User Booking Hotel</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getBookingDataByInvoice">Get Booking Data by Invoice Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#getPointUser">Cek User Point</a></li>
-                <li class="nav-item"><a class="nav-link" href="#editHotelDataByAdmin">Edit Hotel Data By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#editUserData">Edit User Data</a></li>
-                <li class="nav-item"><a class="nav-link" href="#deleteHotelByAdmin">Delete Hotel Data By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#deleteUserByAdmin">Delete User Data By Admin</a></li>
-                <li class="nav-item"><a class="nav-link" href="#chatbot">Chatbot Access for User Platform</a></li>
+                <li class="nav-item"><a class="nav-link" href="#authSatuSehat">Auth satu sehat</a></li>
+                <li class="nav-item"><a class="nav-link" href="#listObatSatuSehat">List Obat Satu Sehat</a></li>
+                <li class="nav-item"><a class="nav-link" href="#registerDoctor">Register Akun Dokter</a></li>
+                <li class="nav-item"><a class="nav-link" href="#loginDoctor">Login Akun Dokter</a></li>
+                <li class="nav-item"><a class="nav-link" href="#addMedicalRecord">Menambahkan Medical Record Pasien</a></li>
+                <li class="nav-item"><a class="nav-link" href="#getAllMedicalRecord">Melihat Data Medical Record Yang Dibuat Dokter</a></li>
+                <li class="nav-item"><a class="nav-link" href="#getMedicalRecordById">Melihat Data Medical Record Yang Dibuat Dokter Berdasarkan ID</a></li>
+                <li class="nav-item"><a class="nav-link" href="#editMedicalRecordById">Mengedit Data Medical Record Yang Dibuat Dokter Berdasarkan ID</a></li>
+                <li class="nav-item"><a class="nav-link" href="#deleteMedicalRecordById">Menghapus Data Medical Record Yang Dibuat Dokter Berdasarkan ID</a></li>
                 <li class="nav-item"><a class="nav-link" href="#"></a></li>
             </ul>
         </nav>
         <div id="content" class="col">
-            <h1 class="my-4">Hotel Apps Mini API Documentation</h1>
+            <h1 class="my-4">Medis Apps - Skill Test API Documentatio</h1>
             <div id="endpoint" class="anchor">
                 <h2 class="my-4">Endpoint</h2>
-                <p><a href="https://hotelku-miniproject-403405.uc.r.appspot.com/">https://hotelku-miniproject-403405.uc.r.appspot.com/</a></p>
+                <p><a href="http://35.225.10.188:8080/">http://35.225.10.188:8080</a></p>
             </div>
+
+
+            <div id="authSatuSehat" class="card mb-4 anchor">
+                <div class="card-body">
+                    <h2>Auth satu sehat</h2>
+                    <p><strong>URL</strong></p>
+                    <p><code>/api/satusehat/auth</code></p>
+                    <p><strong>Method</strong></p>
+                    <p><code>POST</code></p>
+                    <p><strong>Request Body</strong></p>
+                    <pre>
+    {
+        "client_id" : XlMlnNSGO9RcdCRvkNL6dfRTMgnvERAIZQCCjA5ybQo0M59u,
+        "client_secret" : vnXsAdXGYw2LW7IvEDhptsGo1VORwoCP9gQORwzxqyIYZ4J92AAGW3VqmQcpDpJ4
+    }
+                        </pre>
+                    <p><strong>Response</strong></p>
+                    <pre>
+    {
+        "id": 13,
+        "message": "Login successful",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJhZml0eSIsImV4cCI6MTY5NzQ2Mzk4MywiaWF0IjoxNjk3Mzc3NTgzfQ.Q3RIb0NVJ72P5wye5iPVaEsf7-BDtT-lavTdkJq60vw"
+    }
+                        </pre>
+                </div>
+            </div>
+
 
             <div id="register" class="card mb-4">
                 <div class="card-body">

@@ -119,7 +119,7 @@ func RegisterDoctor(db *gorm.DB, secretKey []byte) echo.HandlerFunc {
 
 		response := map[string]interface{}{
 			"code":    http.StatusOK,
-			"message": "Admin HR registered successfully",
+			"message": "Doctor account registered successfully",
 			"token":   tokenString,
 			"id":      doctor.ID,
 		}
