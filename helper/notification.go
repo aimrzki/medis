@@ -15,7 +15,7 @@ func SendWelcomeEmail(doctorEmail, fullName, verificationToken string) error {
 
 	sender := smtpUsername
 	recipient := doctorEmail
-	subject := "Welcome to Prodia"
+	subject := "Welcome to health"
 	verificationLink := "http://35.225.10.188:8080/verify?token=" + verificationToken
 	emailBody := `
     <html>
@@ -94,16 +94,16 @@ func SendWelcomeEmail(doctorEmail, fullName, verificationToken string) error {
             <div class="logo">
                 <a href="https://ibb.co.com/txfvnNV"><img src="https://i.ibb.co.com/LJwcBqV/channels4-profile.jpg" alt="channels4-profile" border="0"></a>
             </div>
-            <h1>Welcome to Prodia</h1>
+            <h1>Welcome to health</h1>
             <div class="message">
                 <p>Hello, <strong>` + fullName + `</strong>,</p>
-                <p>Thank you for choosing Prodia. You're now part of our team!</p>
+                <p>Thank you for choosing health. You're now part of our team!</p>
                 <p>If you have any questions or need assistance, please don't hesitate to contact our support team.</p>
-                <p><strong>Support Team:</strong> <a href="mailto:prodiaaimar@gmail.com">prodiaaimar@gmail.com</a></p>
+                <p><strong>Support Team:</strong> <a href="mailto:health@gmail.com">health@gmail.com</a></p>
                 <a href="` + verificationLink + `" class="btn btn-verify-email">Verify Email</a>
             </div>
             <div class="footer">
-                <p>&copy; 2024 Prodia. All rights reserved.</p>
+                <p>&copy; 2024 health. All rights reserved.</p>
             </div>
         </div>
     </body>
@@ -222,16 +222,16 @@ func SendLoginNotification(doctorEmail string, name string) error {
             <h1>Login Successful</h1>
         </div>
        <div class="logo">
-    <img src="https://ibb.co.com/txfvnNV" alt="Prodia Logo">
+    <img src="https://ibb.co.com/txfvnNV" alt="health Logo">
 </div>
 
         <div class="message">
             <p>Hello, <strong>` + name + `</strong>,</p>
             <p>Your login was successful. If this wasn't you, please contact our support team immediately. Thank you.</p>
-            <p><strong>Support Team:</strong> <a href="mailto:prodiaaimar@gmail.com">prodiaaimar@gmail.com</a></p>
+            <p><strong>Support Team:</strong> <a href="mailto:health@gmail.com">health@gmail.com</a></p>
         </div>
         <div class="footer">
-            <p>&copy; 2024 Prodia. All rights reserved. | <a href="https://hr-harmony.seculab.space" target="_blank">Prodia</a></p>
+            <p>&copy; 2024 health. All rights reserved. | <a href="https://health.seculab.space" target="_blank">health</a></p>
         </div>
     </div>
 </body>
@@ -275,7 +275,7 @@ func SendMedicalRecordNotification(patientEmail, patientName, diagnosis, prescri
 
 	sender := smtpUsername
 	recipient := patientEmail
-	subject := "Your Medical Record from Prodia"
+	subject := "Your Medical Record from health"
 	emailBody := `
 	<html>
 	<head>
@@ -285,9 +285,9 @@ func SendMedicalRecordNotification(patientEmail, patientName, diagnosis, prescri
 	</head>
 	<body>
 		<p>Hello, <strong>` + patientName + `</strong>,</p>
-		<p>Please find attached your medical record from Prodia.</p>
-		<p>If you have any questions or need assistance, please contact us at prodiaaimar@gmail.com.</p>
-		<p>Regards,<br>Prodia Team</p>
+		<p>Please find attached your medical record from health.</p>
+		<p>If you have any questions or need assistance, please contact us at health@gmail.com.</p>
+		<p>Regards,<br>health Team</p>
 	</body>
 	</html>
 	`

@@ -1,4 +1,4 @@
-name: backend-prodia
+name: backend-health
 
 on:
   push:
@@ -31,7 +31,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-prodia:latest
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/backend-health:latest
 
   deploy-rest-api:
     runs-on: ubuntu-latest
@@ -45,8 +45,8 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT }}
           script: |
-            sudo docker stop prodia
-            sudo docker rm prodia
-            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/backend-prodia:latest
-            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend-prodia:latest
-            sudo docker run -d -p 8080:8080  -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e DB_HOST=${{ secrets.DB_HOST }} -e DB_PORT=${{ secrets.DB_PORT }} -e DB_NAME=${{ secrets.DB_NAME }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e SMTP_SERVER=${{ secrets.SMTP_SERVER }} -e SMTP_USERNAME=${{ secrets.SMTP_USERNAME }} -e SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }} -e SMTP_PORT=${{ secrets.SMTP_PORT }} -e CLIENT_ID=${{ secrets.CLIENT_ID }} -e CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} -e GRANT_TYPE=${{ secrets.GRANT_TYPE }} --name prodia ${{ secrets.DOCKERHUB_USERNAME }}/backend-prodia:latest
+            sudo docker stop health
+            sudo docker rm health
+            sudo docker rmi ${{ secrets.DOCKERHUB_USERNAME }}/backend-health:latest
+            sudo docker pull ${{ secrets.DOCKERHUB_USERNAME }}/backend-health:latest
+            sudo docker run -d -p 8080:8080  -e DB_USERNAME=${{ secrets.DB_USERNAME }} -e DB_PASSWORD=${{ secrets.DB_PASSWORD }} -e DB_HOST=${{ secrets.DB_HOST }} -e DB_PORT=${{ secrets.DB_PORT }} -e DB_NAME=${{ secrets.DB_NAME }} -e SECRET_KEY=${{ secrets.SECRET_KEY }} -e SMTP_SERVER=${{ secrets.SMTP_SERVER }} -e SMTP_USERNAME=${{ secrets.SMTP_USERNAME }} -e SMTP_PASSWORD=${{ secrets.SMTP_PASSWORD }} -e SMTP_PORT=${{ secrets.SMTP_PORT }} -e CLIENT_ID=${{ secrets.CLIENT_ID }} -e CLIENT_SECRET=${{ secrets.CLIENT_SECRET }} -e GRANT_TYPE=${{ secrets.GRANT_TYPE }} --name health ${{ secrets.DOCKERHUB_USERNAME }}/backend-health:latest
