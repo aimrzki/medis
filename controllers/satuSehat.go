@@ -4,10 +4,12 @@ import (
 	"encoding/json"
 	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
+	"medis/helper"
 	"net/http"
 	"strconv"
 )
 
+// Struktur untuk menampung response dari API Auth
 type AuthResponse struct {
 	RefreshTokenExpiresIn string   `json:"refresh_token_expires_in"`
 	ApiProductList        string   `json:"api_product_list"`
@@ -25,6 +27,7 @@ type AuthResponse struct {
 	Status                string   `json:"status"`
 }
 
+// Struktur untuk menampung response dari API daftar obat
 type MedicineResponse struct {
 	Total int `json:"total"`
 	Page  int `json:"page"`
@@ -34,6 +37,7 @@ type MedicineResponse struct {
 	} `json:"items"`
 }
 
+// Struktur untuk data obat
 type Medicine struct {
 	KfaCode             *string    `json:"kfa_code"`
 	ProductTemplateName *string    `json:"product_template_name"`
@@ -50,23 +54,32 @@ type Medicine struct {
 	Province            []Province `json:"province"`
 }
 
+// Struktur untuk data provinsi
 type Province struct {
 	ProvinceCode string `json:"province_code"`
 	ProvinceName string `json:"province_name"`
 }
 
+// Fungsi untuk mendapatkan token autentikasi
 func GetAuthToken(c echo.Context) error {
+	// Struktur untuk request autentikasi
 	type AuthRequest struct {
 		ClientID     string `form:"client_id"`
 		ClientSecret string `form:"client_secret"`
 		GrantType    string `form:"grant_type"`
 	}
 
+	// Bind data dari request ke dalam struct AuthRequest
 	var authReq AuthRequest
 	if err := c.Bind(&authReq); err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Failed to bind request body: " + err.Error()})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Failed to bind request body: " + err.Error(),
+		}
+		return c.JSON(http.StatusBadRequest, errorResponse)
 	}
 
+	// Mengirim request ke API untuk mendapatkan token autentikasi
 	client := resty.New()
 	resp, err := client.R().
 		SetHeader("Content-Type", "application/x-www-form-urlencoded").
@@ -79,12 +92,20 @@ func GetAuthToken(c echo.Context) error {
 		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken")
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to get access token: " + err.Error()})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to get access token: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	var authResponse AuthResponse
 	if err := json.Unmarshal(resp.Body(), &authResponse); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to parse access token response: " + err.Error()})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to parse access token response: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	return c.JSON(http.StatusOK, authResponse)
@@ -119,14 +140,24 @@ func GetAuthToken(c echo.Context) error {
 }
 */
 
+// Fungsi untuk mendapatkan daftar obat
 func GetMedicineList(c echo.Context) error {
+
+	// Kode untuk memverifikasi token yang diinputkan
 	authHeader := c.Request().Header.Get("Authorization")
 	if authHeader == "" {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Token is required"})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Token is required",
+		}
+		return c.JSON(http.StatusBadRequest, errorResponse)
 	}
+
+	// Page limit pada query param untuk paggination
 	pageParam := c.QueryParam("page")
 	limitParam := c.QueryParam("limit")
 
+	// Jika page dan limit tidak di masukan defultnya page 1 dan limit 10
 	page, err := strconv.Atoi(pageParam)
 	if err != nil || page <= 0 {
 		page = 1
@@ -137,6 +168,7 @@ func GetMedicineList(c echo.Context) error {
 		limit = 10
 	}
 
+	// Mengirimkan rest api untuk melihat daftar obat
 	client := resty.New()
 	resp, err := client.R().
 		SetHeader("Authorization", authHeader).
@@ -147,12 +179,20 @@ func GetMedicineList(c echo.Context) error {
 		Get("https://api-satusehat-stg.kemkes.go.id/kfa/farmalkes-price-jkn")
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to get medicine list: " + err.Error()})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to get medicine list: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	var medicineResponse MedicineResponse
 	if err := json.Unmarshal(resp.Body(), &medicineResponse); err != nil {
-		return c.JSON(http.StatusInternalServerError, map[string]string{"error": "Failed to parse medicine list response: " + err.Error()})
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to parse medicine list response: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	return c.JSON(http.StatusOK, medicineResponse)

@@ -52,6 +52,6 @@ func ValidateEmailFormat(email string) bool {
 }
 
 func ValidatePhoneNumber(phone string) bool {
-	re := regexp.MustCompile(`^\d{1,13}$`)
+	re := regexp.MustCompile(`^\d{10,13}$`)
 	return re.MatchString(phone)
 }
