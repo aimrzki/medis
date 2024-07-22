@@ -3,11 +3,18 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/go-resty/resty/v2"
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"medis/helper"
 	"net/http"
+	"os"
 	"strconv"
 )
+
+type Paggination struct {
+	Page  int `json:"page"`
+	Limit int `json:"limit"`
+}
 
 // Struktur untuk menampung response dari API Auth
 type AuthResponse struct {
@@ -79,6 +86,25 @@ func GetAuthToken(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errorResponse)
 	}
 
+	// Memuat variabel lingkungan dari file .env
+	if err := godotenv.Load(); err != nil {
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to load .env file: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
+	}
+
+	// Mengambil URL dari variabel lingkungan
+	authURL := os.Getenv("AUTH_URL")
+	if authURL == "" {
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "AUTH_URL is not set in the environment",
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
+	}
+
 	// Mengirim request ke API untuk mendapatkan token autentikasi
 	client := resty.New()
 	resp, err := client.R().
@@ -89,7 +115,7 @@ func GetAuthToken(c echo.Context) error {
 			"grant_type":    authReq.GrantType,
 		}).
 		SetQueryParam("grant_type", authReq.GrantType).
-		Post("https://api-satusehat-stg.dto.kemkes.go.id/oauth2/v1/accesstoken")
+		Post(authURL)
 
 	if err != nil {
 		errorResponse := helper.ErrorResponse{
@@ -153,11 +179,11 @@ func GetMedicineList(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, errorResponse)
 	}
 
-	// Page limit pada query param untuk paggination
+	// Page limit pada query param untuk pagination
 	pageParam := c.QueryParam("page")
 	limitParam := c.QueryParam("limit")
 
-	// Jika page dan limit tidak di masukan defultnya page 1 dan limit 10
+	// Jika page dan limit tidak di masukan defaultnya page 1 dan limit 10
 	page, err := strconv.Atoi(pageParam)
 	if err != nil || page <= 0 {
 		page = 1
@@ -168,7 +194,26 @@ func GetMedicineList(c echo.Context) error {
 		limit = 10
 	}
 
-	// Mengirimkan rest api untuk melihat daftar obat
+	// Memuat variabel lingkungan dari file .env
+	if err := godotenv.Load(); err != nil {
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "Failed to load .env file: " + err.Error(),
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
+	}
+
+	// Mengambil URL dari variabel lingkungan
+	medicineURL := os.Getenv("MEDICINE_URL")
+	if medicineURL == "" {
+		errorResponse := helper.ErrorResponse{
+			Code:    http.StatusInternalServerError,
+			Message: "MEDICINE_URL is not set in the environment",
+		}
+		return c.JSON(http.StatusInternalServerError, errorResponse)
+	}
+
+	// Mengirimkan rest API untuk melihat daftar obat
 	client := resty.New()
 	resp, err := client.R().
 		SetHeader("Authorization", authHeader).
@@ -176,7 +221,7 @@ func GetMedicineList(c echo.Context) error {
 			"page":  strconv.Itoa(page),
 			"limit": strconv.Itoa(limit),
 		}).
-		Get("https://api-satusehat-stg.kemkes.go.id/kfa/farmalkes-price-jkn")
+		Get(medicineURL)
 
 	if err != nil {
 		errorResponse := helper.ErrorResponse{

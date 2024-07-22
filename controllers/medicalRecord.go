@@ -201,6 +201,79 @@ func GetMedicalRecordsByDoctor(db *gorm.DB, secretKey []byte) echo.HandlerFunc {
 			limit = 10
 		}
 
+		offset := (page - 1) * limit
+
+		// Fitur searching
+		searching := c.QueryParam("searching")
+
+		var medicalRecords []models.MedicalRecords
+		query := db.Where("doctor_id = ?", doctor.ID).
+			Offset(offset).
+			Limit(limit).
+			Order("id DESC")
+
+		if searching != "" {
+			searchPattern := "%" + searching + "%"
+			query = query.Where(
+				db.Where("patient_name ILIKE ?", searchPattern).
+					Or("email ILIKE ?", searchPattern))
+		}
+
+		if err := query.Find(&medicalRecords).Error; err != nil {
+			errorResponse := helper.ErrorResponse{
+				Code:    http.StatusInternalServerError,
+				Message: "Failed to fetch medical records",
+			}
+			return c.JSON(http.StatusInternalServerError, errorResponse)
+		}
+
+		// Logika untuk menghitung total record yang ada pada medical record
+		var totalRecords int64
+		countQuery := db.Model(&models.MedicalRecords{}).Where("doctor_id = ?", doctor.ID)
+		if searching != "" {
+			searchPattern := "%" + searching + "%"
+			countQuery = countQuery.Where("patient_name ILIKE ?", searchPattern)
+		}
+		countQuery.Count(&totalRecords)
+
+		// Response saat berhasil
+		response := map[string]interface{}{
+			"code":         http.StatusOK,
+			"error":        false,
+			"message":      "Medical records fetched successfully",
+			"data":         medicalRecords,
+			"totalRecords": totalRecords,
+			"page":         page,
+			"limit":        limit,
+		}
+		return c.JSON(http.StatusOK, response)
+	}
+}
+
+/*
+func GetMedicalRecordsByDoctor(db *gorm.DB, secretKey []byte) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		// Logika untuk memverifikasi token yang dimasukan apakah valid milik dokter
+		doctor, err := helper.VerifyDoctorToken(db, c, secretKey)
+		if err != nil {
+			errorResponse := helper.ErrorResponse{
+				Code:    http.StatusUnauthorized,
+				Message: err.Error(),
+			}
+			return c.JSON(http.StatusUnauthorized, errorResponse)
+		}
+
+		// Logika untuk pagination dengan membaca query params page dan limit
+		page, err := strconv.Atoi(c.QueryParam("page"))
+		if err != nil || page < 1 {
+			page = 1
+		}
+
+		limit, err := strconv.Atoi(c.QueryParam("limit"))
+		if err != nil || limit < 1 {
+			limit = 10
+		}
+
 		// Menampilkan data medical record dari table
 		var medicalRecords []models.MedicalRecords
 		offset := (page - 1) * limit
@@ -229,6 +302,7 @@ func GetMedicalRecordsByDoctor(db *gorm.DB, secretKey []byte) echo.HandlerFunc {
 		return c.JSON(http.StatusOK, response)
 	}
 }
+*/
 
 /*
 Function GetMedicalRecordByID digunakan untuk dokter dapat menampilkan detail data medical record
