@@ -3,7 +3,6 @@ package controllers
 import (
 	"encoding/json"
 	"github.com/go-resty/resty/v2"
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo/v4"
 	"medis/helper"
 	"net/http"
@@ -84,15 +83,6 @@ func GetAuthToken(c echo.Context) error {
 			Message: "Failed to bind request body: " + err.Error(),
 		}
 		return c.JSON(http.StatusBadRequest, errorResponse)
-	}
-
-	// Memuat variabel lingkungan dari file .env
-	if err := godotenv.Load(); err != nil {
-		errorResponse := helper.ErrorResponse{
-			Code:    http.StatusInternalServerError,
-			Message: "Failed to load .env file: " + err.Error(),
-		}
-		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	// Mengambil URL dari variabel lingkungan
@@ -192,15 +182,6 @@ func GetMedicineList(c echo.Context) error {
 	limit, err := strconv.Atoi(limitParam)
 	if err != nil || limit <= 0 {
 		limit = 10
-	}
-
-	// Memuat variabel lingkungan dari file .env
-	if err := godotenv.Load(); err != nil {
-		errorResponse := helper.ErrorResponse{
-			Code:    http.StatusInternalServerError,
-			Message: "Failed to load .env file: " + err.Error(),
-		}
-		return c.JSON(http.StatusInternalServerError, errorResponse)
 	}
 
 	// Mengambil URL dari variabel lingkungan
