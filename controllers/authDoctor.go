@@ -85,7 +85,7 @@ func RegisterDoctor(db *gorm.DB, secretKey []byte) echo.HandlerFunc {
 			}
 		}
 
-		// Menyimpan nilai lastname kedalam database
+		// Menyimpan nilai lastname
 		doctor.LastName = doctor.LastName
 
 		// Logika untuk memastikan last username boleh kosong dan bila diisi maksimal 100 huruf
