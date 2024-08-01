@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
-	"medis/middleware"
+	"medis/auth"
 	"medis/models"
 	"strings"
 )
@@ -22,7 +22,7 @@ func VerifyDoctorToken(db *gorm.DB, c echo.Context, secretKey []byte) (*models.D
 
 	tokenString = authParts[1]
 
-	username, err := middleware.VerifyToken(tokenString, secretKey)
+	username, err := auth.VerifyToken(tokenString, secretKey)
 	if err != nil {
 		return nil, errors.New("Invalid token")
 	}
